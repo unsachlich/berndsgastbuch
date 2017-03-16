@@ -36,6 +36,11 @@ app.post("/new-entry", function(request, response) {
 	    published: new Date()
 });
   console.log(JSON.stringify( entries ));
+
+    fs.writeFileSync('files/entries.json', JSON.stringify( entries ), function(error, data) {
+      console.log(data);
+    });
+
   response.redirect("/");
 });
 
