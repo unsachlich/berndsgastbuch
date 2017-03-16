@@ -1,16 +1,21 @@
+var fs = require("fs");
+var entries = [];
+
+var loadJsonFile = fs.readFileSync("files/entries.json", "utf8");
+entries = JSON.parse(loadJsonFile);
+console.log(JSON.stringify( entries ));
+
 var http = require("http");
 var path = require("path");
 var express = require("express");
 var logger = require("morgan");
 var bodyParser = require("body-parser");
-var fs = require("fs");
 
 var app = express();
 
 app.set("views", path.resolve(__dirname, "views"));
 app.set("view engine", "ejs");
 
-var entries = [];
 app.locals.entries = entries;
 
 app.use(logger("dev"));
