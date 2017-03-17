@@ -10,8 +10,15 @@ var path = require("path");
 var express = require("express");
 var logger = require("morgan");
 var bodyParser = require("body-parser");
+var uuidV4 = require ("uuid/v4");
+
+var entryID = uuidV4();
+console.log(entryID);
 
 var app = express();
+
+var staticPath = path.join(__dirname, 'styles');
+app.use(express.static(staticPath));
 
 app.set("views", path.resolve(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -38,15 +45,34 @@ app.post("/new-entry", function(request, response) {
 	entries.push({
 	    title: request.body.title,
 	    content: request.body.body,
-	    published: new Date()
+	    published: new Date(),
+      id: entryID
 });
   console.log(JSON.stringify( entries ));
 
-    fs.writeFileSync('files/entries.json', JSON.stringify( entries ), function(error, data) {
+    fs.writeFileSync('files/entries.json', JSON.stringify( entries ) + "\n", function(error, data) {
       console.log(data);
     });
 
   response.redirect("/");
+});
+
+app.get("/entries/:entryID", function(req, res) {
+  var gesuchteId = req.params.entryID;
+  var foundIndex = -1;
+
+  for (var i = 0; i < entries.length; i++) {
+    if (entries[i].id === gesuchteId) {
+      foundIndex = i;
+      break;
+    }
+  }
+  if (foundIndex >= 0) {
+    entries.splice(foundIndex, 1);
+  } else {res.send("Kein Index gefunden")};
+
+  res.redirect("/");
+
 });
 
 app.use(function(request, response) {

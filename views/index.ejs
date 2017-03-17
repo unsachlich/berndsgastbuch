@@ -5,6 +5,7 @@
       <div class="panel-heading">
         <div class="text-muted pull-right">
           <%= entry.published %>
+          <form class="delete" method="DELETE" action="entries/<%= entry.id %>"><button type="submit">X</button></form>
         </div>
         <%= entry.title %>
       </div>
