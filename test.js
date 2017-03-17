@@ -2,7 +2,7 @@ var fs = require("fs");
 var entries = [];
 
 var syncEntries = function() {
-  fs.writeFileSync('files/entries.json', JSON.stringify( entries ) + "\n", function(error, data) {
+  fs.writeFile('files/entries.json', JSON.stringify( entries ), function(error, data) {
     console.log(data);
   });
 }
