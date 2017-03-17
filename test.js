@@ -1,6 +1,12 @@
 var fs = require("fs");
 var entries = [];
 
+var syncEntries = function() {
+  fs.writeFileSync('files/entries.json', JSON.stringify( entries ) + "\n", function(error, data) {
+    console.log(data);
+  });
+}
+
 var loadJsonFile = fs.readFileSync("files/entries.json", "utf8");
 entries = JSON.parse(loadJsonFile);
 console.log(JSON.stringify( entries ));
@@ -50,9 +56,7 @@ app.post("/new-entry", function(request, response) {
 });
   console.log(JSON.stringify( entries ));
 
-    fs.writeFileSync('files/entries.json', JSON.stringify( entries ) + "\n", function(error, data) {
-      console.log(data);
-    });
+  syncEntries();
 
   response.redirect("/");
 });
@@ -69,6 +73,7 @@ app.get("/entries/:entryID", function(req, res) {
   }
   if (foundIndex >= 0) {
     entries.splice(foundIndex, 1);
+    syncEntries();
   } else {res.send("Kein Index gefunden")};
 
   res.redirect("/");
