@@ -2,7 +2,7 @@ var fs = require("fs");
 var entries = [];
 
 var syncEntries = function() {
-  fs.writeFileSync('files/entries.json', JSON.stringify( entries ));
+  fs.writeFileSync('files/entries.json', JSON.stringify( entries );
 }
 
 var loadJsonFile = fs.readFileSync("files/entries.json", "utf8");
@@ -15,9 +15,6 @@ var express = require("express");
 var logger = require("morgan");
 var bodyParser = require("body-parser");
 var uuidV4 = require ("uuid/v4");
-
-var entryID = uuidV4();
-console.log(entryID);
 
 var app = express();
 
@@ -50,7 +47,7 @@ app.post("/new-entry", function(request, response) {
 	    title: request.body.title,
 	    content: request.body.body,
 	    published: new Date(),
-      id: entryID
+      id: uuidV4()
 });
   console.log(JSON.stringify( entries ));
 
