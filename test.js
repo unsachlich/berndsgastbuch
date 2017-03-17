@@ -2,9 +2,7 @@ var fs = require("fs");
 var entries = [];
 
 var syncEntries = function() {
-  fs.writeFile('files/entries.json', JSON.stringify( entries ), function(error, data) {
-    console.log(data);
-  });
+  fs.writeFileSync('files/entries.json', JSON.stringify( entries ));
 }
 
 var loadJsonFile = fs.readFileSync("files/entries.json", "utf8");
